@@ -1,56 +1,50 @@
-import PropTypes from "prop-types"
+import axios from 'axios';
+import React from 'react';
+import Movie from './Movie';
+import './App.css';
 
-function Food({ name, picture }) {
-  return (
-    <div>
-      <h2>I Like {name} </h2>
-      <h4>{rating}/5.0</h4>
-      <img src={picture} alt={name} />
-    </div>
-  );
-}
-
-const foodILike = [
-{
-  id: 1,
-  name: 'Kimchi' ,
-  image: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.1store.io%2FofficialProductImage%2F1587198787425-0712162682417814.png&f=1&nofb=1',
-  rating: 5
-},
-{
-  id: 2,
-  name: 'Samgyeopsal',
-  image: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.7eVH1-RFh79bxlSFkE3_OQHaFj%26pid%3DApi&f=1',
-  rating: 4.9
-},
-{
-  id: 3,
-  name: 'Bibimbap',
-  image: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.pRnKRrM81L9hbe4DThII0QHaEK%26pid%3DApi&f=1',
-  rating: 4.8
-},
-{
-  id:4,
-  name: 'Doncasu',
-  image: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.joE5cNaLzhfW129LDOm6iwHaE8%26pid%3DApi&f=1',
-  rating: 4.5
-},
-{
-  id:5,
-  name: 'Kimbap',
-  image: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.XiO-APPrmYLstQXFFJDGrgHaE-%26pid%3DApi&f=1',
-  rating: 5
-},
-];
-
-function App() { 
-  return (
-    <div>
-      {foodILike.map(dish =>
-      <Food Key={dish.id} name={dish.name} picture={dish.image} rating={dish.rating} />
-      )}
-    </div>
-  );
+class App extends React.Component {
+  state = {
+    isLoading: true,
+    moives: []
+  };
+  getMovies = async () => {
+      const { 
+        data: {
+          data: {movies}
+        }
+      } = await axios.get('https://yts-proxy.now.sh/list_movies.json?sort_by=rating');
+    this.setState({movies, isLoading: false});
+  }
+  componentDidMount() {
+    this.getMovies();
+  }
+  render() {
+    const {isLoading, movies} = this.state;
+    return ( 
+      <section className='container'>
+        {isLoading ? (
+          <div className='loader'>
+            <span className='loader_text'>Loading</span>
+          </div>
+          ) : (
+            <div className='movies'>
+              {movies.map(movie => (
+                <Movie
+                key={movie.id}
+                id={movie.id}
+                year={movie.year}
+                title={movie.title}
+                summary={movie.summary}
+                poster={movie.medium_cover_image}
+                genres={movie.genres}
+               />
+              ))}
+            </div>
+          )}
+      </section>
+    );
+  }
 }
 
 export default App;
