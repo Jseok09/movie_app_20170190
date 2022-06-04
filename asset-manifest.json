@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Jseok09/movie_app_20170190/static/css/main.ec0421f8.css",
+    "main.js": "/Jseok09/movie_app_20170190/static/js/main.01c0085c.js",
+    "index.html": "/Jseok09/movie_app_20170190/index.html",
+    "main.ec0421f8.css.map": "/Jseok09/movie_app_20170190/static/css/main.ec0421f8.css.map",
+    "main.01c0085c.js.map": "/Jseok09/movie_app_20170190/static/js/main.01c0085c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ec0421f8.css",
+    "static/js/main.01c0085c.js"
+  ]
+}
